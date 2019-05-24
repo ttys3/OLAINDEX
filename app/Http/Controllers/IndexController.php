@@ -25,7 +25,7 @@ class IndexController extends Controller
      *
      * @var int|mixed|string
      */
-    public $expires = 10;
+    public $expires = 600;
 
     /**
      * 根目录
@@ -53,7 +53,7 @@ class IndexController extends Controller
         ]);
         $this->middleware('HandleEncryptDir')
             ->only(Tool::config('encrypt_option', ['list']));
-        $this->expires = Tool::config('expires', 10);
+        $this->expires = Tool::config('expires', 600);
         $this->root = Tool::config('root', '/');
         $this->show = [
             'stream' => explode(' ', Tool::config('stream')),
@@ -484,7 +484,7 @@ class IndexController extends Controller
         $data = [
             'password' => encrypt($password),
             'encryptKey' => $encryptKey,
-            'expires' => time() + (int)$this->expires * 60, // 目录密码过期时间
+            'expires' => time() + (int)$this->expires, // 目录密码过期时间
         ];
         Session::put('password:' . $encryptKey, $data);
         $arr = Tool::handleEncryptDir(Tool::config('encrypt_path'));
